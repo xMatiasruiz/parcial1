@@ -1,0 +1,105 @@
+from utilidades import es_letra, es_numero, simbolo_ascii
+
+def validar_estructura(password:str) -> bool:
+    """
+    Valida los requisitos obligatorios de ingreso:
+    no deja vacios, minimo 8 caracteres, no deja empezar con espacio y almenos una letra.
+    Args:
+        password (str): La cadena de texto de la contraseña a validar.
+
+    Returns:
+        bool: True si pasa todas las reglas de estructura, False si viola alguna.
+
+    """
+    largo = len(password)
+    if largo == 0:
+        print("[Error]La contraseña no puede estar vacia.")
+        return False
+    if largo < 8:
+        print("[Error]: La contraseña debe tener al menos 8 caracteres")
+        return False
+    if password[0] == " ":
+        print("[Error] La contraseña no puede comenzar con espacios.")
+        return False
+    
+    tiene_letra = False
+    for i in range(largo):
+        if es_letra(password[i]):
+            tiene_letra = True
+    
+    if not tiene_letra:
+        print("[Error] La contraseña debe contener al menos una letra")
+        return False
+    
+    return True
+
+
+def contar_tipos(password:str):
+    """
+    Recorre manualmente la cadena y cuenta letras, numeros, simbolos y espacios.
+    Args:
+        password (str): La contraseña activa en el sistema.
+
+    Returns:
+        list: Una lista con cuatro enteros que representan [letras, números, símbolos, espacios]
+    """
+    letras = 0
+    numeros = 0
+    simbolos = 0
+    espacios = 0
+
+    for i in range(len(password)):
+        caracter= password[i]
+        if es_letra(caracter):
+            letras+=1
+        elif es_numero(caracter):
+            numeros +=1
+        elif simbolo_ascii(caracter):
+            simbolos += 1
+        elif caracter == " ":
+            espacios += 1
+    
+    return [letras, numeros, simbolos, espacios] 
+
+def validar_nivel_seguridad(password:str) -> str:
+    """
+    Determina el nivel de seguridad analizando la longitud y tipos de caracteres.
+    Args:
+        password (str): La contraseña activa a analizar.
+
+    Returns:
+        str: El nivel estimado de seguridad ('Fuerte', 'Media' o 'Débil').
+    """
+
+    largo = len(password)
+    cant_letras, cant_numeros, cant_simbolos, cant_espacios = contar_tipos(password)
+
+    if largo >= 12 and cant_letras > 0 and cant_numeros > 0 and cant_simbolos > 0:
+        return "Fuerte"
+    
+    if 8 <= largo <= 9 and cant_letras == largo:
+        return "Debil"
+    
+    return "Media"
+
+def buscar_caracter(password, objetivo):
+    """
+    Busca un caracter especifico de forma manual informando cantidad y posiciones
+    Args:
+        contra (str): La contraseña original.
+
+    Returns:
+        str: La cadena de texto totalmente invertida.
+    """
+
+    contador = 0
+    posiciones = ""
+
+    for i in range(len(password)):
+        if password[i] == objetivo:
+            contador += 1
+            posiciones = posiciones + str(i) + ""
+    
+    print(f"El caracter {objetivo} aparece {contador} veces")
+    if contador > 0:
+        print(f"Posiciones de aparicion:{posiciones}")
