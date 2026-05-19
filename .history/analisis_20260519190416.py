@@ -1,13 +1,11 @@
 def buscar_caracter(password, objetivo):
     """
+    Busca un caracter especifico de forma manual informando cantidad y posiciones
     Args:
-        password (str): La contraseña o cadena de texto en la que se va a buscar.
-        objetivo (str): El carácter específico que se desea encontrar, contar y ubicar.
+        contra (str): La contraseña original.
 
     Returns:
-        La función no retorna ningún valor (devuelve None implícitamente), 
-        ya que los resultados se muestran directamente en la pantalla 
-        mediante la función 'print'.
+        str: La cadena de texto totalmente invertida.
     """
 
     contador = 0
@@ -16,7 +14,7 @@ def buscar_caracter(password, objetivo):
     for i in range(len(password)):
         if password[i] == objetivo:
             contador += 1
-            posiciones = posiciones + str(i) + " "
+            posiciones = posiciones + str(i) + ""
     
     print(f"El caracter {objetivo} aparece {contador} veces")
     if contador > 0:
